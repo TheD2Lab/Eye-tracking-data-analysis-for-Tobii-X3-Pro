@@ -92,15 +92,15 @@ public class User {
 		parser.printColumn( parser.getMap().get("PupilLeft") );
 //		parser.printColumn( parser.getMap().get("AbsoluteSaccadicDirection") );
 		
-		HashMap<String,Integer> map = parser.getMap();
-		ArrayList<String> indexData = parser.getRawColumnData( map.get("SaccadeIndex"));
-		ArrayList<String> AbsSaccadeData = parser.getRawColumnData( map.get("AbsoluteSaccadicDirection"));
-		System.out.println( indexData.size() );
-		System.out.println( AbsSaccadeData.size() );
-
-		for( int i = 0 ; i < indexData.size() ; i++ ) {
-			System.out.println( indexData.get(i) + "  " + AbsSaccadeData.get(i) );
-		}
+//		HashMap<String,Integer> map = parser.getMap();
+//		ArrayList<String> indexData = parser.getRawColumnData( map.get("SaccadeIndex"));
+//		ArrayList<String> AbsSaccadeData = parser.getRawColumnData( map.get("AbsoluteSaccadicDirection"));
+//		System.out.println( indexData.size() );
+//		System.out.println( AbsSaccadeData.size() );
+//
+//		for( int i = 0 ; i < indexData.size() ; i++ ) {
+//			System.out.println( indexData.get(i) + "  " + AbsSaccadeData.get(i) );
+//		}
 		
 		
 		
