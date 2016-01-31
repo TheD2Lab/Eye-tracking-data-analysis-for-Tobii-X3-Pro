@@ -6,9 +6,9 @@ public class Pupils {
 	private double base_avg_right_pipil_size;
 	private double base_avg_both_pipil_size;
 	
-	private double avg_left_pipil_size;
-	private double avg_right_pipil_size;
-	private double avg_both_pipil_size;
+	private double avg_left_pipil_size = -1.0;
+	private double avg_right_pipil_size = -1.0;
+	private double avg_both_pipil_size = -1.0;
 
 	
 	public Pupils(){};

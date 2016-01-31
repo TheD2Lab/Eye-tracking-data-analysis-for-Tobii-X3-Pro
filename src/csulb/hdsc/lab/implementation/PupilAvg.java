@@ -2,7 +2,7 @@ package csulb.hdsc.lab.implementation;
 
 import java.util.ArrayList;
 
-public class PupilAvg implements Implementation {
+public class PupilAvg implements DataColumnImplementation {
 
 	@Override
 	// Pupil Average data can be either -1.00 or an empty string. Both of which will be excluded.

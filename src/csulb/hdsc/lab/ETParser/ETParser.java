@@ -18,16 +18,18 @@ public class ETParser {
 	private String line;
 	private HashMap<Integer,SummaryStatistics> summaries;
 	private File data;
-	private HashMap<String,Integer> qualities_map;
+	private HashMap<String,Integer> attributes_map;
 	private HashMap<Integer,ArrayList<String>> raw_data;
 	
+	private int invalid_rows;
+	private int valid_rows;
 	
 	public ETParser(String file_location ) {
 		
 		summaries = new HashMap<>();
 
 		data = new File( file_location ); 
-		qualities_map = new HashMap<>();
+		attributes_map = new HashMap<>();
 		raw_data = new HashMap<>();
 		
 		parse();
@@ -49,22 +51,23 @@ public class ETParser {
             	header_line = line.split("\t");
             	//System.out.println( header_line.length );
             	
+            	// remove weird encoding from first str in header_line array
             	header_line[0] = header_line[0].substring(3, header_line[0].length() );
             	
             	for ( int i = 0 ; i < header_line.length; i++ ) {
             		//System.out.println( header_line[i] + ": " + i );
-            		qualities_map.put( header_line[i], i);
+            		attributes_map.put( header_line[i], i);
             		
             		// Initial array for all column data
 					raw_data.put( i, new ArrayList<>() );
 
             	}
             	
-            	// remove weird encoding from first str in header_line array
             	
-            	int leftValidity = qualities_map.get( "ValidityLeft" ); 
-    			int rightValidity = qualities_map.get( "ValidityRight" );     			
-    			int lineCount = 1;
+            	int leftValidityIdx = attributes_map.get( "ValidityLeft" ); 
+    			int rightValidityIdx = attributes_map.get( "ValidityRight" );     			
+    			int lineCount = 0;
+    			
             	while((line = bufferedReader.readLine()) != null) {
             		lineCount++;
             		String[] split_line = line.split("\t");
@@ -79,20 +82,45 @@ public class ETParser {
 //            			continue;
 //            		}
             		
+            		// Set Initial validity to be false till it is checked to be 0s
+            		int leftValidity = - 1;
+            		int rightValidity = - 1;
+            		
+            		if ( leftValidityIdx <= split_line.length && rightValidityIdx <= split_line.length ) {
+            			leftValidity =  Integer.parseInt(split_line[leftValidityIdx]);
+            			rightValidity = Integer.parseInt(split_line[rightValidityIdx]);
+
+            			if ( leftValidity != 0 && rightValidity != 0 ) {
+            				invalid_rows++;
+            			} else {
+            				valid_rows++;
+            			}
+
+            		} else {
+            			invalid_rows++;
+            		}
+            		
+            		// Notice we are iterating over the entire set of attributes. Some rows will not have all attributes output.
             		for ( int i = 0 ; i<header_line.length;i++) {
             			
-        				int columnIdx = qualities_map.get( header_line[i] );
-
-            			if ( i > split_line.length - 1 || split_line.length - 1 < leftValidity || split_line.length - 1 < rightValidity ) {
-            				raw_data.get( columnIdx ).add("N/A");
+        				int columnIdx = attributes_map.get( header_line[i] );
+        				
+        				
+        				// Adding "N/A" keeps the data within the same row to be aligned among different columns. 
+        				/* index i cannot be greater than the split line, add "N/A" for any index pass this point ( happens for short row ) 
+        				 *  all rows that do not have validity for right and left eye will instead add N/A
+        				 */
+//            			if ( i > split_line.length - 1 || split_line.length - 1 < leftValidityIdx || split_line.length - 1 < rightValidityIdx ) {
+            			if 	( i > split_line.length - 1) {
+        					raw_data.get( columnIdx ).add("N/A");
             				continue;
             			}
         				
-//            			int leftValidity = qualities_map.get( "ValidityLeft" ); 
-//            			int rightValidity = qualities_map.get( "ValidityRight" ); 
-            			//System.out.println(i);
-            			//System.out.println( header_line[i] );
-            			if ( Integer.parseInt(split_line[leftValidity]) == 0 && Integer.parseInt(split_line[rightValidity]) == 0 ) {
+
+            			
+            			
+            			
+            			if ( leftValidity == 0 && rightValidity  == 0 ) {
             				
             				
             				if ( !split_line[i].equals("") && split_line[i].matches("^\\d*\\.?\\d*$") ) { 
@@ -111,6 +139,9 @@ public class ETParser {
             		}
             	} 
             	System.out.println("LINECOUNT: " + lineCount );
+            	System.out.println("ValidRows: " + valid_rows );
+            	System.out.println("InvalidRows: " + invalid_rows );
+
             }
      
 
@@ -133,6 +164,19 @@ public class ETParser {
 		
 	}
 	
+	
+	public int getInvalidRows() {
+		return invalid_rows;
+	}
+	
+	public int getValidRows() {
+		return valid_rows;
+	}
+	
+	public HashMap<Integer, ArrayList<String>> getRawData() {
+		return raw_data;
+	}
+	
 	public SummaryStatistics getDescSummaryOfKthColumn( int k ) {
 		return summaries.get(k);
 	}
@@ -144,8 +188,8 @@ public class ETParser {
 	
 	public void printColumn( int columnIdx ) {
 		ArrayList<String> columnData = raw_data.get( columnIdx );
-		ArrayList<String> validLeftData = raw_data.get( qualities_map.get("ValidityLeft") );
-		ArrayList<String> validRightData = raw_data.get( qualities_map.get("ValidityRight") );
+		ArrayList<String> validLeftData = raw_data.get( attributes_map.get("ValidityLeft") );
+		ArrayList<String> validRightData = raw_data.get( attributes_map.get("ValidityRight") );
 		Boolean empty = false;
 		for ( int i = 0 ; i < columnData.size(); i++ ) {
 			System.out.println( columnData.get(i) + "  " + validLeftData.get(i) + "  " + validRightData.get(i) );
@@ -158,7 +202,7 @@ public class ETParser {
 	}
 	
 	public HashMap<String,Integer> getMap() {
-		return qualities_map;
+		return attributes_map;
 	}
 	
 }

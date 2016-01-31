@@ -5,8 +5,12 @@ import java.util.HashMap;
 
 import csulb.hdsc.lab.ETParser.ColumnMap;
 import csulb.hdsc.lab.ETParser.ETParser;
-import csulb.hdsc.lab.implementation.Implementation;
+import csulb.hdsc.lab.datastructures.Median;
+import csulb.hdsc.lab.implementation.FixationDurationStatistics;
+import csulb.hdsc.lab.implementation.DataColumnImplementation;
+import csulb.hdsc.lab.implementation.Plus5;
 import csulb.hdsc.lab.implementation.PupilAvg;
+import csulb.hdsc.lab.implementation.getMax;
 
 public class User {
 	
@@ -38,6 +42,26 @@ public class User {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		
+		fixations.setN( parser.getRawColumnData(map.get("FixationIndex")) , new getMax() );
+		System.out.println( "N: " + fixations.getN() );
+		
+		FixationDurationStatistics fds = new FixationDurationStatistics(parser.getRawData() , parser.getMap());
+		fixations.setSumDuration( fds );
+		fixations.setMeanDuration( fds );
+		fixations.setMaxDuration( fds );
+		fixations.setMinDuration( fds );
+		fixations.setStDev( fds );
+		fixations.setMedian( fds );
+		
+		
+		System.out.println( fixations.toString() );
+		
+		
+		
+		
+		
+		
 	}
 	
 	
@@ -68,7 +92,7 @@ public class User {
 		return fixations;
 	}
 	
-	private double getPupilAvg(String column_name, Implementation implementation ) {
+	private double getPupilAvg(String column_name, DataColumnImplementation implementation ) {
 //		System.out.println( column_name );
 //		System.out.println( map.get( column_name ) ); 
 		ArrayList<String> pupil_data = parser.getRawColumnData( map.get( column_name ) ); 
@@ -85,14 +109,14 @@ public class User {
 	public static void main( String args[] ){
 		
 		//ColumnMap custom_map = new ColumnMap("./Mappings/QualitiesToColumns.txt");
-		ETParser parser = new ETParser("./TestData/ArunData.tsv");
+		ETParser parser = new ETParser("./TestData/Testing_Data_Export.tsv");
 		User user = new User( parser );
 		
 //		parser.printColumn( parser.getMap().get("SaccadeIndex") );
-		parser.printColumn( parser.getMap().get("PupilLeft") );
+//		parser.printColumn( parser.getMap().get("PupilLeft") );
 //		parser.printColumn( parser.getMap().get("AbsoluteSaccadicDirection") );
 		
-//		HashMap<String,Integer> map = parser.getMap();
+		HashMap<String,Integer> map = parser.getMap();
 //		ArrayList<String> indexData = parser.getRawColumnData( map.get("SaccadeIndex"));
 //		ArrayList<String> AbsSaccadeData = parser.getRawColumnData( map.get("AbsoluteSaccadicDirection"));
 //		System.out.println( indexData.size() );
@@ -102,6 +126,7 @@ public class User {
 //			System.out.println( indexData.get(i) + "  " + AbsSaccadeData.get(i) );
 //		}
 		
+//		parser.printColumn( map.get("GazeEventDuration") );
 		
 		
 	}
