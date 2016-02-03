@@ -10,6 +10,8 @@ import csulb.hdsc.lab.implementation.FixationDurationStatistics;
 import csulb.hdsc.lab.implementation.DataColumnImplementation;
 import csulb.hdsc.lab.implementation.Plus5;
 import csulb.hdsc.lab.implementation.PupilAvg;
+import csulb.hdsc.lab.implementation.SaccadeLengthStatistics;
+import csulb.hdsc.lab.implementation.SaccadeDurationStatistics;
 import csulb.hdsc.lab.implementation.getMax;
 
 public class User {
@@ -43,25 +45,38 @@ public class User {
 			e.printStackTrace();
 		}
 		
-		fixations.setN( parser.getRawColumnData(map.get("FixationIndex")) , new getMax() );
-		System.out.println( "N: " + fixations.getN() );
+		//fixations.setN( parser.getRawColumnData(map.get("FixationIndex")) , new getMax() );
 		
 		FixationDurationStatistics fds = new FixationDurationStatistics(parser.getRawData() , parser.getMap());
+		fixations.setTotalN( fds );
 		fixations.setSumDuration( fds );
 		fixations.setMeanDuration( fds );
 		fixations.setMaxDuration( fds );
 		fixations.setMinDuration( fds );
 		fixations.setStDev( fds );
 		fixations.setMedian( fds );
+		System.out.println( getFixationsDetail() ) ;
 		
+		SaccadeLengthStatistics sls = new SaccadeLengthStatistics( parser.getRawData(), parser.getMap() ) ;
+		saccades.setSumLength( sls );
+		saccades.setMeanLength( sls );
+		saccades.setMaxLength( sls );
+		saccades.setMinLength( sls );
+		saccades.setStDev( sls );
+		saccades.setMedianLength( sls );
+
+		SaccadeDurationStatistics sds = new SaccadeDurationStatistics( parser.getRawData(), parser.getMap() ) ;
+		saccades.setSumDuration( sds );
+		saccades.setMeanDuration( sds );
+		saccades.setMedianDuration( sds );
+		saccades.setMaxDuration( sds );
+		saccades.setMinDuration( sds );
+		saccades.setStDev( sds );
 		
-		System.out.println( fixations.toString() );
-		
-		
-		
-		
-		
-		
+		saccades.setTotalN( sls );
+
+		System.out.println( getSaccadesDetail() ) ;
+
 	}
 	
 	
@@ -90,6 +105,14 @@ public class User {
 	
 	public Fixations getFixationsData(){
 		return fixations;
+	}
+	
+	public String getFixationsDetail(){
+		return fixations.toString();
+	}
+	
+	public String getSaccadesDetail(){
+		return saccades.toString();
 	}
 	
 	private double getPupilAvg(String column_name, DataColumnImplementation implementation ) {
@@ -128,6 +151,12 @@ public class User {
 		
 //		parser.printColumn( map.get("GazeEventDuration") );
 		
+		ArrayList<String> leftvalidity = parser.getRawColumnData( map.get("ValidityLeft"));
+		for ( String x : leftvalidity ) {
+			if( !x.equals("0") && !x.equals("N/A") ) {
+				System.out.println("HERE");
+			}
+		}
 		
 	}
 }

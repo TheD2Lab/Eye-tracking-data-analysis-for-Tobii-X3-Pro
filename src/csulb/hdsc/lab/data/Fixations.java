@@ -1,11 +1,9 @@
 package csulb.hdsc.lab.data;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 
 import csulb.hdsc.lab.implementation.Analysis;
 import csulb.hdsc.lab.implementation.DataColumnImplementation;
-import csulb.hdsc.lab.implementation.FixationDurationStatistics;
 
 public class Fixations {
 	
@@ -53,6 +51,10 @@ public class Fixations {
 	
 	public void setMedian( Analysis a ) {
 		median_duration = a.getMedian();
+	}
+	
+	public void setTotalN( Analysis a ) {
+		total_num = (int) a.getN();
 	}
 	
 	@Override

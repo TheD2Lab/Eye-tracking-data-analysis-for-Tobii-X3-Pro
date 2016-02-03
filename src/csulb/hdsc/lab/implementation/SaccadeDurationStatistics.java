@@ -2,18 +2,19 @@ package csulb.hdsc.lab.implementation;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.LinkedHashSet;
 
 import org.apache.commons.math3.stat.descriptive.SummaryStatistics;
 
 import csulb.hdsc.lab.datastructures.Median;
 
-public class FixationDurationStatistics extends Analysis {
+
+public class SaccadeDurationStatistics extends Analysis {
+
+private Median<Double> median;
 	
-	private Median<Integer> median;
 	
-	
-	public FixationDurationStatistics( HashMap<Integer, ArrayList<String>> raw_data, HashMap<String,Integer> map ){
+	public SaccadeDurationStatistics( HashMap<Integer, ArrayList<String>> raw_data, HashMap<String,Integer> map ){
+
 		super();
 		this.summary = new SummaryStatistics();
 		median = new Median<>();
@@ -26,7 +27,7 @@ public class FixationDurationStatistics extends Analysis {
 	protected void crossColumnCompute(HashMap<Integer, ArrayList<String>> raw_data, HashMap<String,Integer> map ) {
 		
 		ArrayList<String> fixationEventData = raw_data.get( map.get("GazeEventType") );
-		ArrayList<String> fixationNumData = raw_data.get( map.get("FixationIndex") );
+		ArrayList<String> fixationNumData = raw_data.get( map.get("SaccadeIndex") );
 		ArrayList<String> gazeEventDurationData = raw_data.get( map.get("GazeEventDuration") );
 		
 
@@ -36,14 +37,13 @@ public class FixationDurationStatistics extends Analysis {
 		for ( int i = 0 ; i < fixationEventData.size(); i++ ) {
 			
 			String fix_str = fixationEventData.get(i);
-			if ( fix_str.equals("Fixation") && ( curFixNum = Integer.parseInt( fixationNumData.get(i)) ) != prevFixNum  ) {
+			if ( fix_str.equals("Saccade") && ( curFixNum = Integer.parseInt( fixationNumData.get(i)) ) != prevFixNum  ) {
 				String duration_str = gazeEventDurationData.get(i);
 				if ( duration_str.equals("") || duration_str.equals("N/A") )  {
-					System.out.println("HERE i: " + i );
 					continue;
 				}
 				prevFixNum = curFixNum;
-				Integer val = Integer.parseInt( duration_str );
+				Double val = Double.parseDouble( duration_str );
 				median.add( val );
 				summary.addValue(val);
 			}
@@ -78,9 +78,5 @@ public class FixationDurationStatistics extends Analysis {
 	public double getSum(){
 		return summary.getSum();
 	}
-	
-	
-	
-	
 
 }

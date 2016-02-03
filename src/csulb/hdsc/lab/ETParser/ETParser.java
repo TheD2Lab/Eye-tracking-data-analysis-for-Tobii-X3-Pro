@@ -100,6 +100,10 @@ public class ETParser {
             			invalid_rows++;
             		}
             		
+            		if ( leftValidity == -1 || rightValidity == -1 ) {
+            			continue;
+            		}
+            		
             		// Notice we are iterating over the entire set of attributes. Some rows will not have all attributes output.
             		for ( int i = 0 ; i<header_line.length;i++) {
             			
@@ -122,7 +126,7 @@ public class ETParser {
             			
             			if ( leftValidity == 0 && rightValidity  == 0 ) {
             				
-            				
+
             				if ( !split_line[i].equals("") && split_line[i].matches("^\\d*\\.?\\d*$") ) { 
             					if ( !summaries.containsKey( columnIdx  )) {
             						summaries.put( columnIdx , new SummaryStatistics() );

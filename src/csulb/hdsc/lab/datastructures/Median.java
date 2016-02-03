@@ -36,14 +36,18 @@ public class Median<E extends Number> {
 	}
 	
 	public double compute(){
-//		if ( max.size() == min.size() ) {
-//		    return max.peek().doubleValue();
-//		} else if ( max.size() < min.size() ) {
-//		    return min.peek().doubleValue();
-//		} else {
-//		    return max.peek().doubleValue();
-//		}
+		if ( max.size() == min.size() ) {
+			return ( max.peek().doubleValue() + min.peek().doubleValue() ) / 2;
+
+		} else if ( max.size() < min.size() ) {
+		    return min.peek().doubleValue();
+		} else {
+		    return max.peek().doubleValue();
+		}
 		
-		return ( max.peek().doubleValue() + min.peek().doubleValue() ) / 2;
+	}
+	
+	public double size() {
+		return max.size() + min.size();
 	}
 }

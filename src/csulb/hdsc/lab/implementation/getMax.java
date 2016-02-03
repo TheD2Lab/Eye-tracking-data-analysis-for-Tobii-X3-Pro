@@ -19,7 +19,6 @@ public class getMax implements DataColumnImplementation {
 			}
 		}
 		
-		System.out.println("N Fixation: " + max );
 		return max;
 	}
 
