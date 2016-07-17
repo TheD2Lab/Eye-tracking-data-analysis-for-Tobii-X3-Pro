@@ -37,7 +37,10 @@ public class Pupils {
 		return avg_right_pipil_size;
 	}
 	
-	public double getAvgBothPupil() {
+	public double getAvgBothPupil() throws Exception {
+		if ( avg_both_pipil_size == -1 ) {
+			throw new Exception();
+		}
 		return avg_both_pipil_size;
 	}
 	

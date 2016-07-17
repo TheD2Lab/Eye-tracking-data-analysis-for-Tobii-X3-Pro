@@ -13,28 +13,30 @@ import java.util.HashMap;
 
 import org.apache.commons.math3.stat.descriptive.SummaryStatistics;
 
-public class ETParser {
+public class ETParserFromFile extends BaseParser {
 
-	private String line;
-	private HashMap<Integer,SummaryStatistics> summaries;
-	private File data;
-	private HashMap<String,Integer> attributes_map;
-	private HashMap<Integer,ArrayList<String>> raw_data;
+//	private String line;
+//	private HashMap<Integer,SummaryStatistics> summaries;
+//	private File data;
+//	private HashMap<String,Integer> attributes_map;
+//	private HashMap<Integer,ArrayList<String>> raw_data;
+//	
+//	private int invalid_rows;
+//	private int valid_rows;
 	
-	private int invalid_rows;
-	private int valid_rows;
-	
-	public ETParser(String file_location ) {
-		
-		summaries = new HashMap<>();
-
-		data = new File( file_location ); 
-		attributes_map = new HashMap<>();
-		raw_data = new HashMap<>();
-		
+	public ETParserFromFile(String file_location ) {
+		super(file_location);
+//		summaries = new HashMap<>();
+//
+//		data = new File( file_location ); 
+//		attributes_map = new HashMap<>();
+//		raw_data = new HashMap<>();
+//		
 		parse();
 		
 	}
+	
+	
 	
 	public void parse() {
 		try {
@@ -166,47 +168,6 @@ public class ETParser {
         }
 		
 		
-	}
-	
-	
-	public int getInvalidRows() {
-		return invalid_rows;
-	}
-	
-	public int getValidRows() {
-		return valid_rows;
-	}
-	
-	public HashMap<Integer, ArrayList<String>> getRawData() {
-		return raw_data;
-	}
-	
-	public SummaryStatistics getDescSummaryOfKthColumn( int k ) {
-		return summaries.get(k);
-	}
-	
-	public ArrayList<String> getRawColumnData( int idx ) {
-		return raw_data.get(idx);
-	}
-	
-	
-	public void printColumn( int columnIdx ) {
-		ArrayList<String> columnData = raw_data.get( columnIdx );
-		ArrayList<String> validLeftData = raw_data.get( attributes_map.get("ValidityLeft") );
-		ArrayList<String> validRightData = raw_data.get( attributes_map.get("ValidityRight") );
-		Boolean empty = false;
-		for ( int i = 0 ; i < columnData.size(); i++ ) {
-			System.out.println( columnData.get(i) + "  " + validLeftData.get(i) + "  " + validRightData.get(i) );
-			if ( columnData.get(i).equals("") ) {
-				empty = true;
-			}
-		}
-		System.out.println( "empty: " + empty );
-		
-	}
-	
-	public HashMap<String,Integer> getMap() {
-		return attributes_map;
 	}
 	
 }

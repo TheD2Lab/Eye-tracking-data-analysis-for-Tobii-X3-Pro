@@ -41,9 +41,10 @@ private Median<Double> median;
 					if ( cur_saccade == null ) {
 						cur_saccade = new OneSaccade();
 					} else {
-						if ( cur_saccade.getNPoints() > 1 ) {
+						// IF statement excludes 0 length points, if you want to do this. Uncomment.
+//						if ( cur_saccade.getNPoints() > 1 ) {
 							summary.addValue( cur_saccade.getTotalLength() );
-						}
+//						}
 						median.add( cur_saccade.getTotalLength() );
 						cur_saccade = new OneSaccade();
 					}

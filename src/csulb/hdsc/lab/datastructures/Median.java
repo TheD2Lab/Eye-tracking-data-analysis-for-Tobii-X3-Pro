@@ -36,7 +36,13 @@ public class Median<E extends Number> {
 	}
 	
 	public double compute(){
+		if ( max.size() == 0 && min.size() == 0 ) {
+			return -1;
+		}
+		
 		if ( max.size() == min.size() ) {
+//			System.out.println( max.peek() );
+//			System.out.println( min.peek() );
 			return ( max.peek().doubleValue() + min.peek().doubleValue() ) / 2;
 
 		} else if ( max.size() < min.size() ) {

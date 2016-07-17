@@ -2,21 +2,58 @@ package csulb.hdsc.lab.data;
 
 import java.util.ArrayList;
 
+import org.simpleframework.xml.Element;
+
 import csulb.hdsc.lab.implementation.Analysis;
 import csulb.hdsc.lab.implementation.DataColumnImplementation;
 
 public class Fixations {
-	
+	@Element
 	private int total_num;
+	@Element
 	private double sum_duration;
+	@Element
 	private double mean_duration;
+	@Element
 	private double median_duration;
+	@Element
 	private double StDev_duration;
+	@Element
 	private double min_duration;
+	@Element
 	private double max_duration;
 	public Fixations(){};
 	
-	
+	public double getSum_duration() {
+		return sum_duration;
+	}
+
+
+	public double getMean_duration() {
+		return mean_duration;
+	}
+
+
+	public double getMedian_duration() {
+		return median_duration;
+	}
+
+
+	public double getStDev_duration() {
+		return StDev_duration;
+	}
+
+
+	public double getMin_duration() {
+		return min_duration;
+	}
+
+
+	public double getMax_duration() {
+		return max_duration;
+	}
+
+
 	public double getSumDuration(){
 		return sum_duration;
 	}
@@ -37,7 +74,7 @@ public class Fixations {
 		mean_duration = a.getMean();
 	}
 	
-	public void setStDev( Analysis a ) {
+	public void setStDevDuration( Analysis a ) {
 		StDev_duration = a.getStdev();
 	}
 	
@@ -49,7 +86,7 @@ public class Fixations {
 		max_duration = a.getMax();
 	}
 	
-	public void setMedian( Analysis a ) {
+	public void setMedianDuration( Analysis a ) {
 		median_duration = a.getMedian();
 	}
 	

@@ -20,7 +20,7 @@ public class PupilAvg implements DataColumnImplementation {
 				}
 			}
 		}
-		System.out.println( sum/count );
+		//System.out.println( sum/count );
 		return sum/count;
 	}
 
